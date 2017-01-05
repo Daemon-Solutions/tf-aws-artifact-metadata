@@ -53,14 +53,14 @@ resource "aws_api_gateway_integration_response" "200_resp_all_artifacts_retrieva
     "application/x-amz-json-1.0" = <<EOF
 #set($inputRoot = $input.path('$'))
 {
-  "Count": "$inputRoot.Count",
-  "Artifacts": [
+  "count": "$inputRoot.Count",
+  "artifacts": [
 #foreach($elem in $inputRoot.Items)
     {
-      "Name": "$elem.artifact_name.S",
-      "Version": "$elem.artifact_version.S",
-      "Release": "$elem.artifact_release.S",
-      "Timestamp": "$elem.created_timestamp.N"
+      "name": "$elem.artifact_name.S",
+      "version": "$elem.artifact_version.S",
+      "release": "$elem.artifact_release.S",
+      "timestamp": "$elem.created_timestamp.N"
     }#if($foreach.hasNext),#end
 #end
   ]
