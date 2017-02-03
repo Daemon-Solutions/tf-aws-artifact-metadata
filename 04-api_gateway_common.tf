@@ -11,7 +11,7 @@ resource "aws_api_gateway_rest_api" "artifact_metadata" {
 
 # Deploy: /api
 resource "aws_api_gateway_deployment" "api" {
-  depends_on  = ["aws_api_gateway_integration.retrieve_all_artifacts"]
+  depends_on  = ["aws_api_gateway_integration.retrieve_all_artifacts","aws_api_gateway_integration.retrieve_artifact_by_name","aws_api_gateway_method.req_add_artifact"]
   rest_api_id = "${aws_api_gateway_rest_api.artifact_metadata.id}"
   stage_name  = "${var.rest_api_root_uri}"
 }

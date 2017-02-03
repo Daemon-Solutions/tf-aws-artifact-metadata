@@ -38,6 +38,7 @@ resource "aws_api_gateway_integration" "retrieve_artifact_by_name" {
   integration_http_method = "POST"
   credentials             = "${aws_iam_role.apigw_access_dynamodb_role.arn}"
   uri                     = "arn:aws:apigateway:eu-west-1:dynamodb:action/Query"
+  passthrough_behavior    = "WHEN_NO_TEMPLATES"
 
   request_templates = {
     "application/json" = <<EOF
@@ -68,14 +69,13 @@ resource "aws_api_gateway_integration_response" "200_resp_artifact_by_name_retri
 {
   "count": "$inputRoot.Count",
   "artifacts": [
-#foreach($elem in $inputRoot.Items)
-    {
+    #foreach($elem in $inputRoot.Items) {
       "name": "$elem.artifact_name.S",
       "version": "$elem.artifact_version.S",
       "release": "$elem.artifact_release.S",
       "timestamp": "$elem.created_timestamp.N"
     }#if($foreach.hasNext),#end
-#end
+    #end
   ]
 }
 EOF
